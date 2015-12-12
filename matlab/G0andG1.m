@@ -4,14 +4,13 @@ function y = G0andG1(y0,y1)
 % g0 = 1/2(1+z^-1)^2
 ypad0=[0;0;0;0;y0];
 ypad1=[0;0;0;0;y1];
-y0i=ypad0;
-y1i=ypad1;
-for i= 5:length(ypad1);
-    y0i(i)=1/2*(ypad0(i)+2*ypad0(i-1)+ypad0(i-2));
-    y1i(i)=-1/8*(-ypad1(i)-2*ypad1(i-1)+6*ypad1(i-2)-2*ypad1(i-3)-ypad1(i-4));
+y0i=zeros(length(y0),1);
+y1i=zeros(length(y1),1);
+
+for i= 1:(length(y0i)-1);
+    y0i(i)=1/2*(ypad0(i+4)+2*ypad0(i+3)+ypad0(i+2));
+    y1i(i)=-1/8*(-ypad1(i+4)-2*ypad1(i+3)+6*ypad1(i+2)-2*ypad1(i+1)-ypad1(i));
 end
-y0i=y0i(5:length(y0i));
-y1i=y1i(5:length(y1i));
 y=y0i+y1i;
 end
 
