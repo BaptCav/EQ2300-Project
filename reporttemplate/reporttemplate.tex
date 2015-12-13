@@ -129,7 +129,7 @@ As one can see in Sec.~\ref{sec:reconstruction}, we introduced a delay by implem
 \label{sec:numreconstruction}
 In order to check our filter bank implementation, we measured the avarge error between the input signal and the delayed output signal.
 \begin{equation}
-error=\frac{1}{N}\sum_{n=1}^{N-1}|v(n+7)-y(n)|^{2}
+error=\frac{1}{N}\sum_{n=1}^{N-1}|v(n+9)-y(n)|^{2}
 \end{equation}
 with $N$ being the total number of samples. As expected by our choice of filter, we obtain a null error meaning that we have perfect reconstruction of the signal.
 
@@ -141,10 +141,20 @@ with $N$ being the total number of samples. As expected by our choice of filter,
 The downsampling results on the spreading of the spectrum over a broader part of our normalized frequency domain. For instance, the $[0;\frac{1}{2}]$ domain is mapped onto $[0;1]$ when we downsample of a factor 2 as for the considered application. Then aliasing occurs, adding the parts that are over [-1/2;1/2] periodically as one can see on Eq.~\ref{eq:downsampling}. 
 \begin{equation}
   \label{eq:downsampling}
-y(\nu)=
+y(\nu)=\frac{1}{2}\sum X((\nu-k)/2)
 \end{equation}
 This phenomenon can be seen in Fig.~\ref{fig:downsampling} we can clearly see that the global behaviour of the downsampled signal looks like the $[0,0.25]$ part of the original one but it is not totally alike, due to aliasing. As expected from the previous curve, the downsample signal sounds "deeper" than the original one, as we have more low frequencies.
 
+\begin{figure}[!ht]
+  \begin{center}
+    % Standard LaTeX can handle EPS files.
+    \includegraphics[width=1.1\columnwidth]{downsampling.png}
+    % If you instead use pdflatex to process the file, the
+    % figures should be in PDF, JPG or PNG format.
+  \end{center}
+  \caption{Effects of the downsampling on the thank.wav signal}
+  \label{fig:downsampling}
+\end{figure}
 
 \subsection{Relation with the input signal}
 The decimated signals are linked to the input signal as they represent a certain band of its frequencies. If we study the filters $H_{0}$ and $H_{1}$, we can consider them to be respectively a low-pass and high-pass filter. Graphical study with Fig.~\ref{fig:filters} shows that the $-3dB$ band pass of $H_{0}$ is approximately [0,0.3] and the one of $H_{1}$ is [0.2,0.5]. We can therefore consider that the decimated signals would represent the spectrum of the signal in theses bands. Fig.~\ref{fig:spect} shows how the spectrum of the input signal (here file "thank.wav") is split in three with these filters.
@@ -205,8 +215,7 @@ The best bit allocation thus depend on the sound signal. As we can see on Fig.~\
 Therefore, it is also possible to devise a bit allocation only by analysing the signal spectrum but it will be worse than testing all bit allocations.
 
 \subsection{Perceived quality}
-To measure the fidelity of the reconstucted signal, we have used the SNQR (Eq.~\ref{eq:sqnr}). Basicaly, it measures the error, sample by sample, between the recontructed signal ans the input signal.
-
+To measure the fidelity of the reconstucted signal, we have used the SNQR (Eq.~\ref{eq:sqnr}). Basicaly, it measures the error, sample by sample, between the recontructed signal ans the input signal. In order to determine if the SQNR is a good measure of the perceived distorsion we computed different configurations of bit repartition that lead to a different SQNR. We have heard that the higher the SQNR, the less audible the noise was, that was to be expected from the formula of the SQNR (Eq.~\ref{eq:sqnr}). During this experiment we also heard that two close SQNR can lead to a different "feeling" of the noise you hear, depending if the quantization noise is located more in the low frequency band or the high frequency ones. This leads us to say that even if SQNR is a good measure of the quantization noise, it is not really representative of the experience of the quality of a human user.
 
 
 \section{Conclusions}

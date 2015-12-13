@@ -103,12 +103,12 @@ y1d=downsample(y1,2);
 
 %% Quantization
 b=4;
-scaling=max(abs(y1d))/(1-pow2(-b));
-y1d = scaling*double(fixed(b, y1d/scaling));
-scaling=max(abs(y00))/(1-pow2(-b));
-y00d = scaling*double(fixed(b, y00d/scaling));
-scaling=max(abs(y01))/(1-pow2(-b));
-y01d = scaling*double(fixed(b, y01d/scaling));
+scaling=max(abs(y1d))/(1-pow2(-4));
+y1d = scaling*double(fixed(4, y1d/scaling));
+scaling=max(abs(y00))/(1-pow2(-3));
+y00d = scaling*double(fixed(3, y00d/scaling));
+scaling=max(abs(y01))/(1-pow2(-5));
+y01d = scaling*double(fixed(5, y01d/scaling));
 
 
 %% Synthesis
@@ -128,7 +128,7 @@ m=mean(abs(y).^2)/length(y);
 e=mean(abs(v-y).^2)/length(y);
 sqnr44=m/e;
 
-%soundsc(yr,Fs);
+soundsc(yr,Fs);
 
 %%Plot spectrum
 figure(2)
