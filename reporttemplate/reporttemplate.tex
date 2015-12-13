@@ -82,7 +82,7 @@ G_1(z)=-H_0(-z)
 \label{eq:condh0g0}
 G_0(z)H_0(z)-G_0(-z)H_0(-z)=2\cdot z^{-l}		
 \end{equation}
- Moreover, in order to perform the synthesis scheme, we need to know the delay introduced by or Analysis/Synthesis bank. By using the formalism presented in Eq.~\ref{eq:g0h0} we ensure a delay $l=3$ for our "first order" filter bank, if Q is an order 2 polynomial in $z^{-1}$. If we want to ensure that Eq.~\ref{eq:condh0g0} is satisfied, we must have $Q(z)=-\frac{1}{16}+\frac{z^{-1}}{4}-\frac{z^{-2}}{16}$.
+ Moreover, in order to perform the synthesis scheme, we need to know the delay introduced by our Analysis/Synthesis bank. By using the formalism presented in Eq.~\ref{eq:g0h0} we ensure a delay $l=3$ for our "first order" filter bank, if Q is an order 2 polynomial in $z^{-1}$. If we want to ensure that Eq.~\ref{eq:condh0g0} is satisfied, we must have $Q(z)=-\frac{1}{16}+\frac{z^{-1}}{4}-\frac{z^{-2}}{16}$.
 \begin{equation}
   \label{eq:g0h0}
 G_0(z)H_0(z)=(1+z^{-1})^4Q(z)
@@ -137,11 +137,25 @@ with $N$ being the total number of samples. As expected by our choice of filter,
 \section{Decimated signals}
 \label{sec:decimated}
 
+\subsection{Relation with the input signal}
+The decimated signals are linked to the input signal as they represent a certain band of its frequencies. If we study the filters $H_{0}$ and $H_{1}$, we can consider them to be respectively a low-pass and high-pass filter. Graphical study with Fig.~\ref{fig:filters} shows that the $-3dB$ bandwidth of $H_{0}$ is approximately [0,0.3] and the one of $H_{1}$ is [0.3,0.5]. 
+
+To simplify, we can consider them to be ideal filters with bandwidths [0,0.25] and [0.25,0.5] so that there is no aliasing. We can therefore consider that the decimated signals would represent the spectrum of the signal in theses bands. Fig.~\ref{fig:spect} shows how the spectrum of the input signal (here file "thank.wav") is split in three with these filters.
+
+\begin{figure}[!ht]
+  \begin{center}
+    \includegraphics[width=1.1\columnwidth]{Thank_spectrum5.png}
+  \end{center}
+  \caption{Spectrum splitting of input signal}
+  \label{fig:spect}
+\end{figure}
+As one may have expected, when we listen to the intermediate signal we can notice that the high band signal y1 on Fig.~\ref{fig:analysis} is mostly composed of high pitch of the signal and the low band signal y0 is composed of the low frequencies of the signal. When considering the second order of our Analysis scheme, we can hear that y00 is very deep and y01 is quite hard to caracterize as it is "high frequencies" of the low band.
+
 \subsection{Effects of the downsampling on the signal}
 The downsampling results on the spreading of the spectrum over a broader part of our normalized frequency domain. For instance, the $[0;\frac{1}{2}]$ domain is mapped onto $[0;1]$ when we downsample of a factor 2 as for the considered application. Then aliasing occurs, adding the parts that are over [-1/2;1/2] periodically as one can see on Eq.~\ref{eq:downsampling}. 
 \begin{equation}
   \label{eq:downsampling}
-y(\nu)=\frac{1}{2}\sum X((\nu-k)/2)
+y(\nu)=\frac{1}{2}\sum X\left(\frac{\nu-k}{2}\right)
 \end{equation}
 This phenomenon can be seen in Fig.~\ref{fig:downsampling} we can clearly see that the global behaviour of the downsampled signal looks like the $[0,0.25]$ part of the original one but it is not totally alike, due to aliasing. As expected from the previous curve, the downsample signal sounds "deeper" than the original one, as we have more low frequencies.
 
@@ -156,16 +170,7 @@ This phenomenon can be seen in Fig.~\ref{fig:downsampling} we can clearly see th
   \label{fig:downsampling}
 \end{figure}
 
-\subsection{Relation with the input signal}
-The decimated signals are linked to the input signal as they represent a certain band of its frequencies. If we study the filters $H_{0}$ and $H_{1}$, we can consider them to be respectively a low-pass and high-pass filter. Graphical study with Fig.~\ref{fig:filters} shows that the $-3dB$ band pass of $H_{0}$ is approximately [0,0.3] and the one of $H_{1}$ is [0.2,0.5]. We can therefore consider that the decimated signals would represent the spectrum of the signal in theses bands. Fig.~\ref{fig:spect} shows how the spectrum of the input signal (here file "thank.wav") is split in three with these filters.
 
-\begin{figure}[!ht]
-  \begin{center}
-    \includegraphics[width=1.1\columnwidth]{Thank_spectrum3.png}
-  \end{center}
-  \caption{Spectrum splitting of input signal}
-  \label{fig:spect}
-\end{figure}
 
 
 
@@ -195,7 +200,7 @@ Given the fact that the rate of $z_{1}(n)$ is half the one of $y(n)$ and that th
 
 
 \subsection{Bit allocation}
-If we want to improve the SQNR obtaine in Sec.~\ref{sec:quantizationeffect} the Eq.~\ref{eq:rate} leads to equation \ref{eq:bit}
+If we want to improve the SQNR obtaine in Sec.~\ref{sec:quantizationeffect} for a $32~kbit/s$ transmition, Eq.~\ref{eq:rate} leads to equation \ref{eq:bit}
 \begin{equation}
   \label{eq:bit}
   2b_{1}+b_{01}+b_{02}=16
@@ -212,7 +217,7 @@ The best bit allocation thus depend on the sound signal. As we can see on Fig.~\
   \caption{Spectrum of input signals}
   \label{fig:spectrum}
 \end{figure}
-Therefore, it is also possible to devise a bit allocation only by analysing the signal spectrum but it will be worse than testing all bit allocations.
+Therefore, it is also possible to devise a bit allocation only by analysing the signal spectrum but it will not be as good as testing all bit allocations.
 
 \subsection{Perceived quality}
 To measure the fidelity of the reconstucted signal, we have used the SNQR (Eq.~\ref{eq:sqnr}). Basicaly, it measures the error, sample by sample, between the recontructed signal ans the input signal. In order to determine if the SQNR is a good measure of the perceived distorsion we computed different configurations of bit repartition that lead to a different SQNR. We have heard that the higher the SQNR, the less audible the noise was, that was to be expected from the formula of the SQNR (Eq.~\ref{eq:sqnr}). During this experiment we also heard that two close SQNR can lead to a different "feeling" of the noise you hear, depending if the quantization noise is located more in the low frequency band or the high frequency ones. This leads us to say that even if SQNR is a good measure of the quantization noise, it is not really representative of the experience of the quality of a human user.
