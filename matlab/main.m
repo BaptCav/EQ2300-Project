@@ -61,7 +61,7 @@ plotspectrum(y(1:length(y)-6));
 hold on
 subplot(212);
 plotspectrum(yr)
-
+y1d=downsample(y1,2);
 %% Quantization
 b=4;
 scaling=max(abs(y1d))/(1-pow2(-b));
